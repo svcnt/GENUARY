@@ -28,6 +28,9 @@ String pathExport = "../../export/";
 float sep;
 int num = 20;
 int tam = 50;
+PImage img;
+int colores = 5;
+int[] paleta = new int[colores];
 
 // SETUP ****************** //
 //////////////////////////////
@@ -38,7 +41,10 @@ public void settings(){
 public void setup(){
   colorMode(HSB);
   noStroke();
-  //fill(#202020);
+  img = loadImage(pathData + "paleta01.png");
+  for(int i = 0; i < colores; i++){
+    paleta[i] = img.get(Math.round((int)random(img.width)), 10);
+  }
 }
 
 // LOOP ******************* //
@@ -60,10 +66,12 @@ public void draw(){
       for(int iii = -num/2; iii < num/2; iii++){
         if(noise(i, ii, iii + frameCount*0.001f) > 0.5f){
           pushMatrix();
-          fill(
-            noise(i, ii, iii + frameCount*0.01f)*50,
+          /*fill(
+            noise(i, ii, iii + frameCount*0.01)*50,
             255,
-            125);
+            125);*/
+          int c = abs((i + ii + iii)) % colores;
+          fill(paleta[c]);
           translate(i*sep, ii*sep, iii*sep);
           rotateX(iii + frameCount * 0.001f);
           box(
