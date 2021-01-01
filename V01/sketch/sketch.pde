@@ -38,11 +38,11 @@ void draw(){
   lightFalloff(1.0, 0.001, 0.0);
   lights();
   pointLight(125,125,125,mouseX,mouseY,500);
-  translate(ancho*0.5, alto*0.5, 300);
+  translate(ancho*0.5, alto*0.5, 250);
 
   rotateX(frameCount * 0.001);
   rotateY(frameCount * 0.001);
-  rotateZ(noise(frameCount*0.001) * TWO_PI);
+  rotateZ(noise(frameCount*0.0001) * TWO_PI);
   //sep = ancho / num;
   sep = tam*0.4;
   for(int i = -num/2; i < num/2; i++){
@@ -77,3 +77,12 @@ void draw(){
 
 // FUNCIONES ************** //
 //////////////////////////////
+void mouseClicked(){
+  setup();
+}
+
+void keyPressed(){
+  if(key == 's'){
+    save(pathExport + random(999) + ".png");
+  }
+}

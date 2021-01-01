@@ -54,11 +54,11 @@ public void draw(){
   lightFalloff(1.0f, 0.001f, 0.0f);
   lights();
   pointLight(125,125,125,mouseX,mouseY,500);
-  translate(ancho*0.5f, alto*0.5f, 300);
+  translate(ancho*0.5f, alto*0.5f, 250);
 
   rotateX(frameCount * 0.001f);
   rotateY(frameCount * 0.001f);
-  rotateZ(noise(frameCount*0.001f) * TWO_PI);
+  rotateZ(noise(frameCount*0.0001f) * TWO_PI);
   //sep = ancho / num;
   sep = tam*0.4f;
   for(int i = -num/2; i < num/2; i++){
@@ -93,6 +93,15 @@ public void draw(){
 
 // FUNCIONES ************** //
 //////////////////////////////
+public void mouseClicked(){
+  setup();
+}
+
+public void keyPressed(){
+  if(key == 's'){
+    save(pathExport + random(999) + ".png");
+  }
+}
   static public void main(String[] passedArgs) {
     String[] appletArgs = new String[] { "sketch" };
     if (passedArgs != null) {
