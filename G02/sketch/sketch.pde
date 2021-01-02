@@ -47,6 +47,8 @@ void setup(){
     }
   }
 
+
+
   // for(int i = 200; i < width-200; i++){
   //   for(int ii = 200; ii <= height-200; ii++){
   //
@@ -130,6 +132,7 @@ void draw(){
   //   save(pathExport + "V02/" + "RDV02" + nf(t, 4) + ".png");
   // }
   t++;
+
 }
 
 // FUNCIONES ************** //

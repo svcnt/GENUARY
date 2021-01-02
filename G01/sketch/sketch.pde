@@ -83,6 +83,19 @@ void mouseClicked(){
 
 void keyPressed(){
   if(key == 's'){
-    save(pathExport + random(999) + ".png");
+    save(pathExport + "G01/" + timeStamp() + ".png");
   }
+}
+
+String timeStamp(){
+  String y = str(year());
+  String m = str(month());
+  String d = str(day());
+  String h = str(hour());
+  String mn = str(minute());
+  String s = str(second());
+
+  String ts = y + m + d + h + h + m + s;
+
+  return ts;
 }
