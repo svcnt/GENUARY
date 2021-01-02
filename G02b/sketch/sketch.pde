@@ -3,7 +3,6 @@
 /*
 GENUARY 2021 / DAY2 / Rule 30 (Elementary cellular automaton)
 José Vicente Araújo - 2021
-
 */
 
 // LIBRERÍAS ************** //
@@ -99,7 +98,7 @@ void draw(){
 //////////////////////////////
 void keyPressed(){
   if(key == 's'){
-    save(pathExport + "G02/" + timeStamp() + ".png");
+    save(pathExport + "G02b/" + timeStamp() + ".png");
   }
 }
 
