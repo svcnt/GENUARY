@@ -3,9 +3,6 @@
 /*
 GENUARY 2021 / DAY2 / Rule 30 (Elementary cellular automaton)
 José Vicente Araújo - 2021
-Based on D. Shiffman
-----
-Well, it's not rule 30, but it's cellular automaton based on Gray-Scott
 */
 
 // LIBRERÍAS ************** //
@@ -13,23 +10,17 @@ Well, it's not rule 30, but it's cellular automaton based on Gray-Scott
 
 // VARIABLES GLOBALES ***** //
 //////////////////////////////
-int ancho = 400;
+int ancho = 500;
 int alto = ancho;
 String pathData = "../../data/";
 String pathExport = "../../export/";
-int t = 0; // temporizador
 
-// PARÁMETROS INICIALES
-// Sobreescritos más abajo, vinculados a posición
-float dA = 1; // Difusión de la sustancia A
-float dB = 0.5; // Difusión de la sustancia B
-float feed = 0.055; // Aparición
-float k = 0.062; // Muerte
-
-PVector[][] grid = new PVector[ancho][alto];
-PVector[][] next = new PVector[ancho][alto];
-PVector[][] temp = new PVector[ancho][alto];
-int pix;
+int tam = 1;
+int sep = tam;
+int numCelH = ancho / sep;
+int numCelV = alto / sep;
+Boolean[][] estados = new Boolean[numCelV][numCelH];
+float umbral = 0.75;
 
 // SETUP ****************** //
 //////////////////////////////
@@ -38,105 +29,76 @@ void settings(){
 }
 
 void setup(){
-  frameRate(100);
   colorMode(HSB);
-  pixelDensity(1);
-  for(int x=0; x<width; x++){
-    for(int y=0; y<height; y++){
-      grid[x][y] = new PVector(1, 0); // x=a, y=b
-      next[x][y] = new PVector(1, 0); // x=a, y=b
+  noStroke();
+  for(int i = 0; i < numCelV; i++){
+    for(int ii = 0; ii < numCelH; ii++){
+      estados[ii][i] = false;
     }
   }
 
-  for(int i = 0; i < width; i++){
-    for(int ii = 0; ii <= height; ii++){
-      float radio = 0.2;
-      if(dist(i, ii, width*random(radio, 1-radio), height*random(radio, 1-radio)) < width*radio){
-        grid[i][ii].x = noise(i*0.1, ii*0.1);
-        grid[i][ii].y = noise(ii*0.1, i*0.1);
-      }
-    }
-  }
 }
 
 // LOOP ******************* //
 //////////////////////////////
 void draw(){
-
-  //background(255);
-  // REACCIÓN - DIFUSIÓN
-  // Redefinición de parámetros según posición
-  for(int i = 1; i < width-1; i++){
-    for(int ii = 1; ii < height-1; ii++){
-
-      dA = map(
-        noise(i*0.1, ii*0.1, frameCount*0.01),
-        0, 1,
-        0.6, 1.3 // inicial: 1
-        );
-      dB = map(
-        noise(i*0.05, ii*0.05, frameCount*0.02),
-        0, 1,
-        0.25, 0.7 // inicial: 0.5
-        );
-      feed = map(
-        noise(i*0.15, frameCount*0.03, ii*0.15),
-        0, 1,
-        0.015, 0.1 // inicial: 0.055
-        );
-      k = map(
-        noise(frameCount*0.04, i*0.02, ii*0.02),
-        0, 1,
-        0.002, 0.112 //inicial: 0.062
-        );
-
-      float a = grid[i][ii].x;
-      float b = grid[i][ii].y;
-      next[i][ii].x = a +
-                      (dA * laplaceA(i, ii)) -
-                      (a * b * b) +
-                      (feed * (1 - a))
-                      ;
-
-      next[i][ii].y = b +
-                      (dB * laplaceB(i, ii)) +
-                      (a * b * b) -
-                      ((k + feed) * b)
-                      ;
+  for(int i = 0; i < numCelV; i++){
+    for(int ii = 0; ii < numCelH; ii++){
+      // Estados de la primera fila
+      if(i == 0){
+        if(noise(ii, frameCount*0.01) > umbral){ estados[ii][i] = true; } else { estados[ii][i] = false; }
+        if (estados[ii][i] == true) { fill(0);} else {fill(255); }
+      }
+      // Estado de cada célula
+      if(i > 0 && ii > 0 && ii < numCelH-1){
+        // 1
+        if (estados[ii-1][i-1] == true && estados[ii][i-1] == true && estados[ii+1][i-1] == true){
+          estados[ii][i] = false;
+        } else
+        // 2
+        if (estados[ii-1][i-1] == true && estados[ii][i-1] == true && estados[ii+1][i-1] == false){
+          estados[ii][i] = false;
+        } else
+        // 3
+        if (estados[ii-1][i-1] == true && estados[ii][i-1] == false && estados[ii+1][i-1] == true){
+          estados[ii][i] = false;
+        } else
+        // 4
+        if (estados[ii-1][i-1] == true && estados[ii][i-1] == false && estados[ii+1][i-1] == false){
+          estados[ii][i] = true;
+        } else
+        // 5
+        if (estados[ii-1][i-1] == false && estados[ii][i-1] == true && estados[ii+1][i-1] == true){
+          estados[ii][i] = true;
+        } else
+        // 6
+        if (estados[ii-1][i-1] == false && estados[ii][i-1] == true && estados[ii+1][i-1] == false){
+          estados[ii][i] = true;
+        } else
+        // 7
+        if (estados[ii-1][i-1] == false && estados[ii][i-1] == false && estados[ii+1][i-1] == true){
+          estados[ii][i] = true;
+        } else
+        // 8
+        if (estados[ii-1][i-1] == false && estados[ii][i-1] == false && estados[ii+1][i-1] == false){
+          estados[ii][i] = false;
+        }
+      }
+      // Colorear célula
+      if (estados[ii][i] == true && dist(ancho/2, alto/2, ii*sep, i*sep) < (ancho/2)-10 ) {fill(0);} else {fill(255);}
+      rect(ii*sep, i*sep, 10, 10);
     }
   }
 
-  // MOSTRAR
-  loadPixels();
-  for(int i = 0; i < width; i++){
-    for(int ii = 0; ii < height; ii++){
-      //if(next[i][ii].x < 0.75){
-        float h = 0;
-        float s = 255 - next[i][ii].x * 255;
-        float b = 255;
-        color c = color(h, s, b);
-        pix = (i + ii * width);
-        pixels[pix] = c;
-      //}
-
-    }
-  }
-  updatePixels();
-
-  // ACTUALIZAR
-  swap();
 
   surface.setTitle("FPS: " + frameRate);
-
-  t++;
-
 }
 
 // FUNCIONES ************** //
 //////////////////////////////
 void keyPressed(){
   if(key == 's'){
-    save(pathExport + "G02/" + timeStamp() + ".png");
+    save(pathExport + "G02b/" + timeStamp() + ".png");
   }
 }
 
@@ -155,39 +117,4 @@ String timeStamp(){
 
 void mousePressed(){
   setup();
-}
-
-float laplaceA(int x, int y){
-  float sumA = 0;
-  sumA += grid[x][y].x * -1;
-  sumA += grid[x-1][y].x * 0.2;
-  sumA += grid[x+1][y].x * 0.2;
-  sumA += grid[x][y+1].x * 0.2;
-  sumA += grid[x][y-1].x * 0.2;
-  sumA += grid[x-1][y-1].x * 0.05;
-  sumA += grid[x+1][y-1].x * 0.05;
-  sumA += grid[x+1][y+1].x * 0.05;
-  sumA += grid[x-1][y+1].x * 0.05;
-  return sumA;
-}
-
-float laplaceB(int x, int y){
-  float sumB = 0;
-  sumB += grid[x][y].y * -1;
-  sumB += grid[x-1][y].y * 0.2;
-  sumB += grid[x+1][y].y * 0.2;
-  sumB += grid[x][y+1].y * 0.2;
-  sumB += grid[x][y-1].y * 0.2;
-  sumB += grid[x-1][y-1].y * 0.05;
-  sumB += grid[x+1][y-1].y * 0.05;
-  sumB += grid[x+1][y+1].y * 0.05;
-  sumB += grid[x-1][y+1].y * 0.05;
-  return sumB;
-}
-
-
-void swap(){
-  temp = grid;
-  grid = next;
-  next = temp;
 }

@@ -15,12 +15,12 @@ int alto = ancho;
 String pathData = "../../data/";
 String pathExport = "../../export/";
 
-int tam = 1;
+int tam = 20;
 int sep = tam;
 int numCelH = ancho / sep;
 int numCelV = alto / sep;
 Boolean[][] estados = new Boolean[numCelV][numCelH];
-float umbral = 0.75;
+float umbral = 0.5;
 
 // SETUP ****************** //
 //////////////////////////////
@@ -30,6 +30,7 @@ void settings(){
 
 void setup(){
   colorMode(HSB);
+  background(255);
   noStroke();
   for(int i = 0; i < numCelV; i++){
     for(int ii = 0; ii < numCelH; ii++){
@@ -42,11 +43,12 @@ void setup(){
 // LOOP ******************* //
 //////////////////////////////
 void draw(){
+  background(255);
   for(int i = 0; i < numCelV; i++){
     for(int ii = 0; ii < numCelH; ii++){
       // Estados de la primera fila
       if(i == 0){
-        if(noise(ii, frameCount*0.01) > umbral){ estados[ii][i] = true; } else { estados[ii][i] = false; }
+        if(noise(ii, frameCount*0.001) > umbral){ estados[ii][i] = true; } else { estados[ii][i] = false; }
         if (estados[ii][i] == true) { fill(0);} else {fill(255); }
       }
       // Estado de cada célula
@@ -85,8 +87,13 @@ void draw(){
         }
       }
       // Colorear célula
-      if (estados[ii][i] == true && dist(ancho/2, alto/2, ii*sep, i*sep) < (ancho/2)-10 ) {fill(0);} else {fill(255);}
-      rect(ii*sep, i*sep, 10, 10);
+      if (estados[ii][i] == true && dist(ancho/2, alto/2, ii*sep, i*sep) < (ancho/2)-10 ) {
+        fill(0);
+        rect(ii*sep, i*sep, tam*0.5, tam);
+      } else if (estados[ii][i] == false && dist(ancho/2, alto/2, ii*sep, i*sep) < (ancho/2)-10 ){
+        fill(0, 255, 255);
+        rect(ii*sep, i*sep, tam, tam*0.5);
+      }
     }
   }
 
