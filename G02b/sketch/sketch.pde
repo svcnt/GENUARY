@@ -88,11 +88,19 @@ void draw(){
       }
       // Colorear célula
       if (estados[ii][i] == true && dist(ancho/2, alto/2, ii*sep, i*sep) < (ancho/2)-10 ) {
-        fill(0);
-        rect(ii*sep, i*sep, tam*0.5, tam);
+        //fill(0);
+        //rect(ii*sep, i*sep, tam*0.25, tam);
+        stroke(0); strokeWeight(1);
+        line(ii*sep, i*sep, ii*sep+sep, i*sep+sep);
+        //noFill();
+        //arc(ii*sep, i*sep, sep, sep, 0, PI);
       } else if (estados[ii][i] == false && dist(ancho/2, alto/2, ii*sep, i*sep) < (ancho/2)-10 ){
-        fill(0, 255, 255);
-        rect(ii*sep, i*sep, tam, tam*0.5);
+        //fill(0, 255, 255);
+        //rect(ii*sep, i*sep, tam, tam*0.25);
+        stroke(0, 255, 255); strokeWeight(1);
+        line(ii*sep, i*sep, ii*sep+sep, i*sep-sep);
+        //noFill();
+        //arc(ii*sep, i*sep, sep, sep, PI, TWO_PI);
       }
     }
   }
