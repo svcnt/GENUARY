@@ -1,3 +1,13 @@
+// INFO ************** //
+//////////////////////////////
+/*
+GENUARY 2021 / DAY2 / Rule 30 (Elementary cellular automaton)
+José Vicente Araújo - 2021
+Based on D. Shiffman
+----
+Well, it's not rule 30, but it's cellular automaton
+*/
+
 // LIBRERÍAS ************** //
 //////////////////////////////
 
@@ -137,51 +147,27 @@ void draw(){
 
 // FUNCIONES ************** //
 //////////////////////////////
-void mousePressed(){
-  setup();
+void keyPressed(){
+  if(key == 's'){
+    save(pathExport + "G02/" + timeStamp() + ".png");
+  }
 }
 
-void keyPressed(){
-  switch(key) {
-    case 'q':
-      dA += 0.001;
-      println("dA: " + dA);
-    break;
-    case 'a':
-      dA -= 0.001;
-      println("dA: " + dA);
-    break;
-    case 'w':
-      dB += 0.001;
-      println("dB: " + dB);
-    break;
-    case 's':
-      dB -= 0.001;
-      println("dB: " + dB );
-    break;
-    case 'e':
-      feed += 0.001;
-      println("feed: " + feed);
-    break;
-    case 'd':
-      feed -= 0.001;
-      println("feed: " +feed);
-    break;
-    case 'r':
-      k += 0.001;
-      println("kill: " + k);
-    break;
-    case 'f':
-      k -= 0.001;
-      println("kill: " + k);
-    break;
-    case 'p':
-      save( pathExport + "diffreactV01-" + day() + "-" + hour() + "-" + minute() + ".jpg");
-    break;
-    default:
-      //
-    break;
-  }
+String timeStamp(){
+  String y = str(year());
+  String m = str(month());
+  String d = str(day());
+  String h = str(hour());
+  String mn = str(minute());
+  String s = str(second());
+
+  String ts = y + m + d + h + h + m + s;
+
+  return ts;
+}
+
+void mousePressed(){
+  setup();
 }
 
 float laplaceA(int x, int y){
