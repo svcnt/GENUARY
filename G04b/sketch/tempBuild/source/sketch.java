@@ -1,3 +1,21 @@
+import processing.core.*; 
+import processing.data.*; 
+import processing.event.*; 
+import processing.opengl.*; 
+
+import processing.video.*; 
+
+import java.util.HashMap; 
+import java.util.ArrayList; 
+import java.io.File; 
+import java.io.BufferedReader; 
+import java.io.PrintWriter; 
+import java.io.InputStream; 
+import java.io.OutputStream; 
+import java.io.IOException; 
+
+public class sketch extends PApplet {
+
 // INFO ************** //
 //////////////////////////////
 /*
@@ -9,7 +27,7 @@ José Vicente Araújo - 2021
 
 // LIBRERÍAS ************** //
 //////////////////////////////
-import processing.video.*;
+
 
 // VARIABLES GLOBALES ***** //
 //////////////////////////////
@@ -26,11 +44,11 @@ int[] tam = new int[5];
 
 // SETUP ****************** //
 //////////////////////////////
-void settings(){
+public void settings(){
   size(ancho, alto);
 }
 
-void setup(){
+public void setup(){
   noStroke();
   img = new Movie(this, "vid001.mp4");
   img.play();
@@ -42,10 +60,10 @@ void setup(){
 
 // LOOP ******************* //
 //////////////////////////////
-void draw(){
+public void draw(){
   image(img, 0, 0);
   for(int i = 0; i < pos.length; i++){
-    espejo(pos[i] + (int)(noise(frameCount*0.01/i)*200), 0, tam[i], height);
+    espejo(pos[i] + (int)(noise(frameCount*0.01f/i)*200), 0, tam[i], height);
     espejo(width/2, pos[i]*(height/width), width/2, tam[i]);
   }
 }
@@ -53,11 +71,11 @@ void draw(){
 // FUNCIONES ************** //
 //////////////////////////////
 
-void movieEvent(Movie m) {
+public void movieEvent(Movie m) {
   m.read();
 }
 
-void espejo(int _x, int _y, int _w, int _h){
+public void espejo(int _x, int _y, int _w, int _h){
   int x = _x; int y = _y; int w = _w; int h = _h;
 
   copy(x,y,-w,h,x,y,w,h);
@@ -66,13 +84,13 @@ void espejo(int _x, int _y, int _w, int _h){
   // rect(x, y, w, h);
 }
 
-void keyPressed(){
+public void keyPressed(){
   if(key == 's'){
     save(pathExport + "G04b/" + timeStamp() + ".png");
   }
 }
 
-String timeStamp(){
+public String timeStamp(){
   String y = str(year());
   String m = str(month());
   String d = str(day());
@@ -85,6 +103,15 @@ String timeStamp(){
   return ts;
 }
 
-void mousePressed(){
+public void mousePressed(){
   setup();
+}
+  static public void main(String[] passedArgs) {
+    String[] appletArgs = new String[] { "sketch" };
+    if (passedArgs != null) {
+      PApplet.main(concat(appletArgs, passedArgs));
+    } else {
+      PApplet.main(appletArgs);
+    }
+  }
 }
