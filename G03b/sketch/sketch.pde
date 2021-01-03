@@ -13,11 +13,13 @@ What's more human than bleeding?
 
 // VARIABLES GLOBALES ***** //
 //////////////////////////////
-int ancho = 450;
+int ancho = 400;
 int alto = ancho;
 String pathData = "../../data/";
 String pathExport = "../../export/";
 int t = 0; // temporizador
+
+PImage fondo;
 
 // PARÁMETROS INICIALES
 // Sobreescritos más abajo, vinculados a posición
@@ -30,6 +32,7 @@ PVector[][] grid = new PVector[ancho][alto];
 PVector[][] next = new PVector[ancho][alto];
 PVector[][] temp = new PVector[ancho][alto];
 int pix;
+color clr;
 
 // SETUP ****************** //
 //////////////////////////////
@@ -40,6 +43,8 @@ void settings(){
 void setup(){
   frameRate(100);
   colorMode(HSB);
+  fondo = loadImage(pathData + "TEXTO.png");
+  //pixelDensity(1);
   // Estados iniciales
   for(int x=0; x<width; x++){
     for(int y=0; y<height; y++){
@@ -52,8 +57,11 @@ void setup(){
     for(int ii = 0; ii <= height; ii++){
       float radio = 0.2;
       if(dist(i, ii, width*random(radio, 1-radio), height*random(radio, 1-radio)) < width*radio){
-        grid[i][ii].x = noise(i*0.1, ii*0.1);
-        grid[i][ii].y = noise(ii*0.1, i*0.1);
+        clr = fondo.get(i, ii);
+        //grid[i][ii].x = noise(i*0.1, ii*0.1);
+        //grid[i][ii].y = noise(ii*0.1, i*0.1);
+        grid[i][ii].x = brightness(clr)/255;
+        grid[i][ii].y = brightness(clr)/255;
       }
     }
   }
@@ -135,7 +143,7 @@ void draw(){
 //////////////////////////////
 void keyPressed(){
   if(key == 's'){
-    save(pathExport + "G03/" + timeStamp() + ".png");
+    save(pathExport + "G03b/" + timeStamp() + ".png");
   }
 }
 
