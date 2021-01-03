@@ -5,7 +5,7 @@ GENUARY 2021 / DAY3 / Make something human
 José Vicente Araújo - 2021
 Based on D. Shiffman
 ----
-What's more human than bleeding?
+Human like... bleeding?
 */
 
 // LIBRERÍAS ************** //

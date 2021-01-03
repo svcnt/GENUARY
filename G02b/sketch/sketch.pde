@@ -48,7 +48,7 @@ void draw(){
     for(int ii = 0; ii < numCelH; ii++){
       // Estados de la primera fila
       if(i == 0){
-        if(noise(ii, frameCount*0.001) > umbral){ estados[ii][i] = true; } else { estados[ii][i] = false; }
+        if(noise(ii, frameCount*0.01) > umbral){ estados[ii][i] = true; } else { estados[ii][i] = false; }
         if (estados[ii][i] == true) { fill(0);} else {fill(255); }
       }
       // Estado de cada célula
@@ -88,17 +88,17 @@ void draw(){
       }
       // Colorear célula
       if (estados[ii][i] == true && dist(ancho/2, alto/2, ii*sep, i*sep) < (ancho/2)-10 ) {
-        //fill(0);
-        //rect(ii*sep, i*sep, tam*0.25, tam);
-        stroke(0); strokeWeight(1);
-        line(ii*sep, i*sep, ii*sep+sep, i*sep+sep);
+        fill(0);
+        rect(ii*sep, i*sep, tam*0.25, tam);
+        //stroke(0); strokeWeight(1);
+        //line(ii*sep, i*sep, ii*sep+sep, i*sep+sep);
         //noFill();
         //arc(ii*sep, i*sep, sep, sep, 0, PI);
       } else if (estados[ii][i] == false && dist(ancho/2, alto/2, ii*sep, i*sep) < (ancho/2)-10 ){
-        //fill(0, 255, 255);
-        //rect(ii*sep, i*sep, tam, tam*0.25);
-        stroke(0, 255, 255); strokeWeight(1);
-        line(ii*sep, i*sep, ii*sep+sep, i*sep-sep);
+        fill(0, 255, 255);
+        rect(ii*sep, i*sep, tam, tam*0.25);
+        //stroke(0, 255, 255); strokeWeight(1);
+        //line(ii*sep, i*sep, ii*sep+sep, i*sep-sep);
         //noFill();
         //arc(ii*sep, i*sep, sep, sep, PI, TWO_PI);
       }

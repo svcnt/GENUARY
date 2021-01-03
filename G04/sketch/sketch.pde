@@ -44,7 +44,7 @@ void setup(){
 void draw(){
   image(img, 0, 0);
   for(int i = 0; i < pos.length; i++){
-    espejo(pos[i], 0, tam[i], height);
+    espejo(pos[i]+(int)(noise(frameCount*0.01/i)*200), 0, tam[i], height);
     espejo(width/2, pos[i]*(height/width), width/2, tam[i]);
   }
 }
