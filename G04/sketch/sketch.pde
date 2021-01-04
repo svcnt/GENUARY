@@ -21,6 +21,8 @@ PImage img;
 
 int[] pos = new int[5];
 int[] tam = new int[5];
+int num[] = {5, 6, 8};
+int orden = 0;
 
 
 // SETUP ****************** //
@@ -31,7 +33,7 @@ void settings(){
 
 void setup(){
   noStroke();
-  img = loadImage(pathData + "6.jpg");
+  img = loadImage(pathData + num[orden] + ".jpg");
   surface.setSize(img.width, img.height);
   for(int i = 0; i < pos.length; i++){
     pos[i] = (int)random(width);
@@ -81,5 +83,16 @@ String timeStamp(){
 }
 
 void mousePressed(){
-  setup();
+  switch(mouseButton) {
+    case LEFT:
+      setup();
+    break;
+    case RIGHT:
+      if (orden < num.length-1) {orden++;} else {orden = 0;}
+      setup();
+    break;
+    default:
+      //
+    break;
+  }
 }
