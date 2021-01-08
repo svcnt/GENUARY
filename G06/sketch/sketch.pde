@@ -7,6 +7,7 @@
 int ancho = 750;
 int alto = 750;
 String pathData = "../../data/";
+String pathExport = "../../export/";
 
 int iterations[] = {1, 2, 3, 4, 5, 6};
 
@@ -116,6 +117,25 @@ PVector pMedio(PVector pmA, PVector pmB){
 
 void triangulo(PVector tA, PVector tB, PVector tC){
   triangle(tA.x, tA.y, tB.x, tB.y, tC.x, tC.y);
+}
+
+void keyPressed(){
+  if(key == 's'){
+    save(pathExport + "G06/" + timeStamp() + ".png");
+  }
+}
+
+String timeStamp(){
+  String y = str(year());
+  String m = str(month());
+  String d = str(day());
+  String h = str(hour());
+  String mn = str(minute());
+  String s = str(second());
+
+  String ts = y + m + d + h + h + m + s;
+
+  return ts;
 }
 
 void mousePressed(){
