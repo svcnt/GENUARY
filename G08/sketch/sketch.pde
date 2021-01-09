@@ -15,9 +15,9 @@ int alto = 750;
 String pathData = "../../data/";
 String pathExport = "../../export/";
 
-int iterations[] = {2, 3, 4, 5, 6, 7};
-
-PVector A, B, C, D, E, F, G, H;
+int num = 300;
+int sep = alto / num;
+float sw = 1;
 
 // SETUP ****************** //
 //////////////////////////////
@@ -26,119 +26,42 @@ void settings(){
 }
 
 void setup(){
-  frameRate(0.5);
+  stroke(255, 50); noFill();
+  strokeWeight(sw);
   colorMode(HSB);
-  stroke(255);
-  noFill();
-
-  for(int i = 0; i < iterations.length; i++){
-    iterations[i] = int(random(4, 7));
-  }
-
-  int var = 0;
-
-  A = new PVector(width/2 + random(-var, var), 10);
-  B = new PVector(width -10, height/2 + random(-var, var));
-  C = new PVector(10, height/2 + random(-var, var));
-  D = new PVector(width/2 + random(-var, var), height - 10);
-
-  E = new PVector(10, 10);
-  F = new PVector(width - 10, 10);
-  G = new PVector(width - 10, height - 10);
-  H = new PVector(10, height - 10);
-
-
+  background(60);
 }
 
 // LOOP ******************* //
 //////////////////////////////
 void draw(){
-  background(20);
-  recursiveT(A, B, C, iterations[0]);
-  recursiveT(D, B, C, iterations[1]);
-  recursiveT(A, C, E, iterations[2]);
-  recursiveT(A, B, F, iterations[3]);
-  recursiveT(B, G, D, iterations[4]);
-  recursiveT(D, C, H, iterations[5]);
-
-  setup();
+  translate(0, 250);
+  for(int i = 1; i < 10; i++){
+    noStroke();
+    rejo(ancho/4, alto/30*i, ancho*0.25, i);
+  }
 }
 
 // FUNCIONES ************** //
 //////////////////////////////
-void recursiveT(PVector rtA, PVector rtB, PVector rtC, int iteracion){
-  int n = 0;
-  if(iteracion < 3){
-    noStroke();
-    fill(iteracion * 127);
-  } else {
-    stroke(40);
-    noFill();
+void rejo(int x, int y, float length, float seed){
+  float v = (frameCount/length)*0.1;
+  pushMatrix();
+  translate(x,y); rotate(map(noise(v, seed), 0, 1, -2, 2));
+  line(0, 0, length, 0);
+  if(length > 1){
+    if (length < 2){stroke(20);}
+    else if (length < 32){stroke(255, 10);}
+    else {noStroke();}
+    rejo(int(length), 0, length*0.6, seed);
   }
-  triangulo(rtA, rtB, rtC);
-  //pMedio(rtA, rtB);
-  //pMedio(rtB, rtC);
-  //pMedio(rtC, rtA);
-  if(iteracion > 0){
-    iteracion--;
+  popMatrix();
 
-    recursiveT(
-      rtC,
-      pMedio(rtA, rtB),
-      rtB,
-      iteracion
-    );
-
-    recursiveT(
-      rtC,
-      pMedio(rtC, rtA),
-      pMedio(rtA, rtB),
-      iteracion
-    );
-
-    /*
-    if(random(1) < 0.5){
-      recursiveT(
-        rtB,
-        pMedio(rtB, rtA),
-        pMedio(rtB, rtC),
-        iteracion
-      );
-    } else {
-      recursiveT(
-        rtA,
-        pMedio(rtA, rtC),
-        pMedio(rtA, rtB),
-        iteracion
-      );
-    }*/
-  }
-}
-
-PVector pMedio(PVector pmA, PVector pmB){
-  PVector pm = new PVector(0, 0);
-  if(pmA.x < pmB.x){
-    pm.x = pmA.x + (pmB.x - pmA.x)/2;
-  } else {
-    pm.x = pmB.x + (pmA.x - pmB.x)/2;
-  }
-  if(pmA.y < pmB.y){
-    pm.y = pmA.y + (pmB.y - pmA.y)/2;
-  } else {
-    pm.y = pmB.y + (pmA.y - pmB.y)/2;
-  }
-
-  //ellipse(pm.x, pm.y, 5, 5);
-  return(pm);
-}
-
-void triangulo(PVector tA, PVector tB, PVector tC){
-  triangle(tA.x, tA.y, tB.x, tB.y, tC.x, tC.y);
 }
 
 void keyPressed(){
   if(key == 's'){
-    save(pathExport + "G06/" + timeStamp() + ".png");
+    save(pathExport + "G08/" + timeStamp() + ".png");
   }
 }
 
