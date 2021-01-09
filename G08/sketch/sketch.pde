@@ -1,7 +1,7 @@
 // INFO ************** //
 //////////////////////////////
 /*
-GENUARY 2021 / DAY6 / Triangle subdivision
+GENUARY 2021 / DAY 8 / Only curves
 José Vicente Araújo - 2021
 */
 
@@ -15,7 +15,7 @@ int alto = 750;
 String pathData = "../../data/";
 String pathExport = "../../export/";
 
-int iterations[] = {1, 2, 3, 4, 5, 6};
+int iterations[] = {2, 3, 4, 5, 6, 7};
 
 PVector A, B, C, D, E, F, G, H;
 
@@ -81,20 +81,22 @@ void recursiveT(PVector rtA, PVector rtB, PVector rtC, int iteracion){
   //pMedio(rtC, rtA);
   if(iteracion > 0){
     iteracion--;
+
     recursiveT(
+      rtC,
       pMedio(rtA, rtB),
-      pMedio(rtB, rtC),
-      pMedio(rtC, rtA),
+      rtB,
       iteracion
     );
 
     recursiveT(
       rtC,
-      pMedio(rtB, rtC),
       pMedio(rtC, rtA),
+      pMedio(rtA, rtB),
       iteracion
     );
 
+    /*
     if(random(1) < 0.5){
       recursiveT(
         rtB,
@@ -109,7 +111,7 @@ void recursiveT(PVector rtA, PVector rtB, PVector rtC, int iteracion){
         pMedio(rtA, rtB),
         iteracion
       );
-    }
+    }*/
   }
 }
 

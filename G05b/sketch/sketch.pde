@@ -1,4 +1,9 @@
-
+// INFO ************** //
+//////////////////////////////
+/*
+GENUARY 2021 / DAY 5 / Code golf!
+José Vicente Araújo - 2021
+*/
 
 void setup(){
   size(300, 300);
