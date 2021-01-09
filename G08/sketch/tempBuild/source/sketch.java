@@ -1,3 +1,19 @@
+import processing.core.*; 
+import processing.data.*; 
+import processing.event.*; 
+import processing.opengl.*; 
+
+import java.util.HashMap; 
+import java.util.ArrayList; 
+import java.io.File; 
+import java.io.BufferedReader; 
+import java.io.PrintWriter; 
+import java.io.InputStream; 
+import java.io.OutputStream; 
+import java.io.IOException; 
+
+public class sketch extends PApplet {
+
 // INFO ************** //
 //////////////////////////////
 /*
@@ -21,11 +37,11 @@ float sw = 1;
 
 // SETUP ****************** //
 //////////////////////////////
-void settings(){
+public void settings(){
   size(ancho, alto);
 }
 
-void setup(){
+public void setup(){
   stroke(255, 50); noFill();
   strokeWeight(sw);
   colorMode(HSB);
@@ -34,20 +50,20 @@ void setup(){
 
 // LOOP ******************* //
 //////////////////////////////
-void draw(){
+public void draw(){
   // fill(60, 1);
   // rect(0, 0, ancho, alto);
   translate(0, 250);
   for(int i = 1; i < 10; i++){
     noStroke();
-    rejo(ancho/4, alto/30*i, ancho*0.25, i);
+    rejo(ancho/4, alto/30*i, ancho*0.25f, i);
   }
 }
 
 // FUNCIONES ************** //
 //////////////////////////////
-void rejo(int x, int y, float length, float seed){
-  float v = (frameCount/length)*0.1;
+public void rejo(int x, int y, float length, float seed){
+  float v = (frameCount/length)*0.1f;
   pushMatrix();
   translate(x,y); rotate(map(noise(v, seed), 0, 1, -3, 3));
   line(0, 0, length, 0);
@@ -55,19 +71,19 @@ void rejo(int x, int y, float length, float seed){
     if (length < 2){stroke(20); strokeWeight(2);}
     else if (length < 64){stroke(255, 5);}
     else {noStroke();}
-    rejo(int(length), 0, length*0.6, seed);
+    rejo(PApplet.parseInt(length), 0, length*0.6f, seed);
   }
   popMatrix();
 
 }
 
-void keyPressed(){
+public void keyPressed(){
   if(key == 's'){
     save(pathExport + "G08/" + timeStamp() + ".png");
   }
 }
 
-String timeStamp(){
+public String timeStamp(){
   String y = str(year());
   String m = str(month());
   String d = str(day());
@@ -80,6 +96,15 @@ String timeStamp(){
   return ts;
 }
 
-void mousePressed(){
+public void mousePressed(){
   setup();
+}
+  static public void main(String[] passedArgs) {
+    String[] appletArgs = new String[] { "sketch" };
+    if (passedArgs != null) {
+      PApplet.main(concat(appletArgs, passedArgs));
+    } else {
+      PApplet.main(appletArgs);
+    }
+  }
 }
