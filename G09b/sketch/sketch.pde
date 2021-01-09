@@ -42,12 +42,12 @@ void draw(){
   stroke(255, 125);
   r(0, 0, ancho-20);
   popMatrix();
-  pushMatrix();
-  translate(ancho/2.05, alto/2);
-  rotate(frameCount*0.0015);
-  stroke(0, 125);
-  r(0, 0, ancho-20);
-  popMatrix();
+  // pushMatrix();
+  // translate(ancho/2.05, alto/2);
+  // rotate(frameCount*0.0015);
+  // stroke(0, 125);
+  // r(0, 0, ancho-20);
+  // popMatrix();
 }
 
 // FUNCIONES ************** //
@@ -56,7 +56,12 @@ void draw(){
 void r (int x, int y, float sz){
   for(int i = int(sz); i > 10; i-=20){
     sz -= 20;
+    pushMatrix();
+    translate(x, y);
+    rotate(frameCount*0.000015*i);
     rect(x, y, sz, sz, /*(sz/2) +*/ mouseX);
+    popMatrix();
+
   }
 
 }
