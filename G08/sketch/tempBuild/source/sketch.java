@@ -69,7 +69,7 @@ public void rejo(int x, int y, float length, float seed){
   line(0, 0, length, 0);
   if(length > 1){
     if (length < 2){stroke(20); strokeWeight(2);}
-    else if (length < 64){stroke(255, 5);}
+    //else if (length < 64){stroke(255, 5);}
     else {noStroke();}
     rejo(PApplet.parseInt(length), 0, length*0.6f, seed);
   }
