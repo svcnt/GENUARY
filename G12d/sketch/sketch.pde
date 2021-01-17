@@ -11,16 +11,21 @@ José Vicente Araújo - 2021
 // VARIABLES GLOBALES ***** //
 //////////////////////////////
 int ancho = 800;
-int alto = ancho;
+int alto = ancho * 3/4;
 String pathData = "../../data/";
 String pathExport = "../../export/";
 int num = 12;
+int n = 55;
 JSONArray[] data = new JSONArray[num];
 String[] urls = new String[num];
-JSONObject[][] weather = new JSONObject[num][num];
-float[][] ws = new float[num][num]; // wind_speed
-float[][] wd = new float[num][num]; // wind_direction
-float sep = ancho/12;
+JSONObject[][] weather = new JSONObject[num][n];
+float[][] ws = new float[num][n]; // wind_speed
+float[][] wd = new float[num][n]; // wind_direction
+float[][] mint = new float[num][n]; // min_temp
+float[][] maxt = new float[num][n]; // max_temp
+float[][] vis = new float[num][n]; // max_temp
+float sepH = ancho/5;
+float sepV = alto/4;
 
 // SETUP ****************** //
 //////////////////////////////
@@ -30,45 +35,85 @@ void settings(){
 }
 
 void setup(){
-  background(20);
+  background(#202020);
+  stroke(255);
   loading();
-  for(int i = 1; i < data.length; i++){
-    urls[i] = "https://www.metaweather.com/api/location/766273/2014/" + nf(i, 2) +"/01";
+  for(int i = 0; i < data.length; i++){
+    urls[i] = "https://www.metaweather.com/api/location/766273/2019/" + nf(i+1, 2) +"/15";
     data[i] = loadJSONArray(urls[i]);
   }
+
+  for(int i = 0; i < data.length; i++){
+    if(data[i] != null){
+      for(int ii = 0; ii < n; ii++){
+        weather[i][ii] = data[i].getJSONObject(ii);
+        ws[i][ii] = weather[i][ii].getFloat("wind_speed");
+        // wd[i][ii] = weather[i][ii].getFloat("wind_direction");
+        mint[i][ii] = weather[i][ii].getFloat("min_temp");
+        maxt[i][ii] = weather[i][ii].getFloat("max_temp");
+        vis[i][ii] = weather[i][ii].getFloat("visibility");
+      }
+    }
+  }
+
+  // println(weather[1][0]);
 }
 
 // LOOP ******************* //
 //////////////////////////////
 void draw(){
   background(#404040);
-  for(int i = 1; i < data.length; i++){
-    for(int ii = 1; ii < num; ii++){
-      if(data[i] != null){
-      weather[i][ii] = data[i].getJSONObject(ii*4);
-      ws[i][ii] = weather[i][ii].getFloat("wind_speed");
-      wd[i][ii] = weather[i][ii].getFloat("wind_direction");
-      pushMatrix();
-      translate(i * sep, ii * sep);
-      rotate(radians(wd[i][ii]));
-      float sz = ws[i][ii] * 5;
-      fill(255);
-      ellipse(0, 0, sz, sz);
-      fill(#202020);
-      arc(0, 0, sz, sz, 0, PI);
-      line(
-        0 - sz / 2, 0,
-        0 + sz / 2, 0
-        );
-      popMatrix();
-      }
-    }
-  }
+  fill(255, 127);
+  textSize(32); text("2019", 20, 50);
 
-  if(frameCount % 1 == 0){
-    for(int i = 1; i < data.length; i++){
-      urls[i] = "https://www.metaweather.com/api/location/766273/2014/" + nf(i, 2) + "/" + int(map(second(), 0, 60, 1, 28));
-      data[i] = loadJSONArray(urls[i]);
+  int c = 0;
+  for(int i = 1; i <= 3; i++){
+    for(int ii = 1; ii <= 4; ii++){
+      fill(255, 25);
+      // WIND SPEED
+      stroke(255, 50);
+      beginShape();
+      for(int iii = 0; iii < 55; iii++){
+        vertex(
+          ii * sepH + sin(iii * TWO_PI/55) * ws[c][iii] * 5,
+          i * sepV + cos(iii * TWO_PI/55) * ws[c][iii] * 5
+        );
+      }
+      endShape(CLOSE);
+      // MIN TMP
+      stroke(#abdbe3, 75);
+      beginShape();
+      for(int iii = 0; iii < 55; iii++){
+        vertex(
+          ii * sepH + sin(iii * TWO_PI/55) * mint[c][iii] * 2.5,
+          i * sepV + cos(iii * TWO_PI/55) * mint[c][iii] * 2.5
+        );
+      }
+      endShape(CLOSE);
+      // MAX TMP
+      stroke(#e28743, 75);
+      beginShape();
+      for(int iii = 0; iii < 55; iii++){
+        vertex(
+          ii * sepH + sin(iii * TWO_PI/55) * maxt[c][iii] * 2.5,
+          i * sepV + cos(iii * TWO_PI/55) * maxt[c][iii] * 2.5
+        );
+      }
+      endShape(CLOSE);
+      // VISIBILITY
+      stroke(#CC0000, 75);
+      beginShape();
+      for(int iii = 0; iii < 55; iii++){
+        vertex(
+          ii * sepH + sin(iii * TWO_PI/55) * vis[c][iii] * 2.5,
+          i * sepV + cos(iii * TWO_PI/55) * vis[c][iii] * 2.5
+        );
+      }
+      endShape(CLOSE);
+
+
+      ellipse(ii * sepH, i * sepV, 10, 10);
+      c++;
     }
   }
 }
@@ -77,12 +122,12 @@ void draw(){
 //////////////////////////////
 
 void loading(){
-  text("loading", 20, 20);
+  text("Cargando datasets", 20, 20);
 }
 
 void keyPressed(){
   if(key == 's'){
-    save(pathExport + "G12/" + timeStamp() + ".png");
+    save(pathExport + "G12d/" + timeStamp() + ".png");
   }
 }
 
@@ -100,5 +145,5 @@ String timeStamp(){
 }
 
 void mousePressed(){
-  setup();
+  //setup();
 }
