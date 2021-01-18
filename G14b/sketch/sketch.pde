@@ -70,20 +70,18 @@ void cell(int cellX, int cellY, int cellW, int cellH){
       // top-right -> cellX+cellW, cellY,
       // bottom-left -> cellX, cellY+cellH,
       // bottom-right -> cellX+cellW, cellY+cellH,
-      arc(cellX, cellY, cellW, cellH, 0, HALF_PI);
-      arc(cellX, cellY, cellW-8, cellH-8, 0, HALF_PI);
-      arc(cellX, cellY, cellW+8, cellH+8, 0, HALF_PI);
-      arc(cellX+cellW, cellY+cellH, cellW, cellH, PI, 3*HALF_PI);
-      arc(cellX+cellW, cellY+cellH, cellW-8, cellH-8, PI, 3*HALF_PI);
-      arc(cellX+cellW, cellY+cellH, cellW+8, cellH+8, PI, 3*HALF_PI);
+      for(int i = cellW; i > cellW*0.33; i-=8){
+        arc(cellX, cellY, 0.33*cellW+i, 0.33*cellH+i, 0, HALF_PI);
+        arc(cellX+cellW, cellY+cellH, 0.33*cellW+i, 0.33*cellH+i, PI, 3*HALF_PI);
+      }
     break;
     case 2:
-      arc(cellX+cellW, cellY, cellW, cellH, HALF_PI, PI);
-      arc(cellX, cellY+cellH, cellW, cellH, 3*HALF_PI, TWO_PI);
-      arc(cellX+cellW, cellY, cellW-8, cellH-8, HALF_PI, PI);
-      arc(cellX, cellY+cellH, cellW-8, cellH-8, 3*HALF_PI, TWO_PI);
-      arc(cellX+cellW, cellY, cellW+8, cellH+8, HALF_PI, PI);
-      arc(cellX, cellY+cellH, cellW+8, cellH+8, 3*HALF_PI, TWO_PI);
+      // arc(cellX+cellW, cellY, cellW, cellH, HALF_PI, PI);
+      //arc(cellX, cellY+cellH, cellW, cellH, 3*HALF_PI, TWO_PI);
+      for(int i = cellW; i > cellW*0.33; i-=8){
+        arc(cellX+cellW, cellY, 0.33*cellW+i, 0.33*cellH+i, HALF_PI, PI);
+        arc(cellX, cellY+cellH, 0.33*cellW+i, 0.33*cellH+i, 3*HALF_PI, TWO_PI);
+      }
     break;
     default:
       //line(cellX, cellY+cellH, cellX+cellW, cellY);
