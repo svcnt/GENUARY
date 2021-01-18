@@ -57,13 +57,14 @@ public void draw(){
 
 // FUNCIONES ************** //
 //////////////////////////////
-public void grd(int xPos, int yPos, int rf, int sz){
+public void grd(float xPos, float yPos, int rf, float sz){
   fill(bg);
-  noStroke();
+  stroke(bg);
+  //noStroke();
   rect(xPos, yPos, sz, sz);
   noFill();
   stroke(255);
-  int cellSize = sz/rf;
+  float cellSize = sz/rf;
   for(int y=0; y<rf; y++){
     for(int x=0; x<rf; x++){
       cell(xPos+x*cellSize, yPos+y*cellSize, cellSize, cellSize);
@@ -74,14 +75,14 @@ public void grd(int xPos, int yPos, int rf, int sz){
   }
 }
 
-public void cell(int cellX, int cellY, int cellW, int cellH){
+public void cell(float cellX, float cellY, float cellW, float cellH){
   int c = color(0, noise(cellX, cellY)*150, noise(cellX, cellY)*150);
   fill(c);
-  noStroke();
-  int rnd = PApplet.parseInt(random(0.6f, 2.9f));
+  stroke(c);
+  int rnd = PApplet.parseInt(random(0.6f, 5.9f));
   switch(rnd) {
     case 1:
-      line(cellX, cellY, cellX+cellW, cellY+cellH);
+      //line(cellX, cellY, cellX+cellW, cellY+cellH);
       triangle(
         cellX, cellY,
         cellX+cellW, cellY+cellH,
@@ -89,15 +90,31 @@ public void cell(int cellX, int cellY, int cellW, int cellH){
         );
     break;
     case 2:
-      line(cellX, cellY+cellH, cellX+cellW, cellY);
+      //line(cellX, cellY+cellH, cellX+cellW, cellY);
       triangle(
         cellX, cellY+cellH,
         cellX+cellW, cellY,
         cellX+cellW, cellY+cellH
         );
     break;
+    case 3:
+      //line(cellX, cellY+cellH, cellX+cellW, cellY);
+      triangle(
+        cellX, cellY,
+        cellX+cellW, cellY,
+        cellX+cellW, cellY+cellH
+        );
+    break;
+    case 4:
+      //line(cellX, cellY+cellH, cellX+cellW, cellY);
+      triangle(
+        cellX, cellY,
+        cellX+cellW, cellY,
+        cellX, cellY+cellH
+        );
+    break;
     default:
-      line(cellX, cellY+cellH, cellX+cellW, cellY);
+      //line(cellX, cellY+cellH, cellX+cellW, cellY);
     break;
   }
 
