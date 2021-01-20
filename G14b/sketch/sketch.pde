@@ -1,7 +1,7 @@
 // INFO ************** //
 //////////////////////////////
 /*
-GENUARY / DÍA 14 / DON'T REPEAT
+GENUARY / DÍA 14 / SUBDIVISION
 José Vicente Araújo - 2021
 ----
 
@@ -12,8 +12,8 @@ José Vicente Araújo - 2021
 
 // VARIABLES GLOBALES ***** //
 //////////////////////////////
-int ancho = 750;
-int alto = 750;
+int ancho = 1000;
+int alto = ancho;
 String pathData = "../../data/";
 String pathExport = "../../export/";
 
@@ -26,7 +26,7 @@ void settings(){
 }
 
 void setup(){
-  frameRate(1);
+  frameRate(0.5);
   colorMode(HSB);
 }
 
@@ -34,16 +34,16 @@ void setup(){
 //////////////////////////////
 void draw(){
   background(bg);
-  grd(10, 10, 2, 750-20);
-
+  grd(100, 100, 2, 800);
   surface.setTitle("FPS: " + frameRate);
 }
 
 // FUNCIONES ************** //
 //////////////////////////////
 void grd(float xPos, float yPos, int rf, float sz){
-  fill(bg);
-  stroke(bg);
+  color c = color(0, noise(xPos, yPos)*150, noise(xPos, yPos)*150);
+  fill(c);
+  stroke(c);
   rect(xPos, yPos, sz, sz);
   noFill();
   stroke(255);
@@ -51,7 +51,7 @@ void grd(float xPos, float yPos, int rf, float sz){
   for(int y=0; y<rf; y++){
     for(int x=0; x<rf; x++){
       cell(xPos+x*cellSize, yPos+y*cellSize, cellSize, cellSize);
-      if(sz > 50 && 0.5 < random(1)){
+      if(sz > 50 && 0.6 < random(1)){
         grd(xPos+x*cellSize, yPos+y*cellSize, rf, cellSize);
       }
     }
@@ -59,36 +59,40 @@ void grd(float xPos, float yPos, int rf, float sz){
 }
 
 void cell(float cellX, float cellY, float cellW, float cellH){
-  color c = color(0, noise(cellX, cellY)*150, noise(cellX, cellY)*150);
-  stroke(c);
+  // color c = color(0, noise(cellX, cellY)*150, noise(cellX, cellY)*150);
+  stroke(bg);
   strokeWeight(3);
   noFill();
-  int rnd = int(random(0.6, 2.9));
+  int rnd = int(random(1, 2.99));
+
+  float start = 10; float end = 20;
+  if(cellW > 200){ start = 250; end = 550; } else
+  if(cellW > 100){ start = 150; end = 250; } else
+  if(cellW > 50){ start = 80; end = 120; } else
+  if(cellW > 25){ start = 20; end = 50; } else
+  if(cellW > 0){ start = 20; end = 30; }
+
   switch(rnd) {
     case 1:
       // top-left -> cellX, cellY,
       // top-right -> cellX+cellW, cellY,
       // bottom-left -> cellX, cellY+cellH,
       // bottom-right -> cellX+cellW, cellY+cellH,
-      for(float i = cellW; i > cellW*0.33; i-=8){
-        arc(cellX, cellY, 0.33*cellW+i, 0.33*cellH+i, 0, HALF_PI);
-        arc(cellX+cellW, cellY+cellH, 0.33*cellW+i, 0.33*cellH+i, PI, 3*HALF_PI);
+      for(float i = start; i <= end; i+=10){
+        arc(cellX, cellY, i, i, 0, HALF_PI);
+        arc(cellX+cellW, cellY+cellH, i, i, PI, 3*HALF_PI);
       }
     break;
     case 2:
-      // arc(cellX+cellW, cellY, cellW, cellH, HALF_PI, PI);
-      //arc(cellX, cellY+cellH, cellW, cellH, 3*HALF_PI, TWO_PI);
-      for(float i = cellW; i > cellW*0.33; i-=8){
-        arc(cellX+cellW, cellY, 0.33*cellW+i, 0.33*cellH+i, HALF_PI, PI);
-        arc(cellX, cellY+cellH, 0.33*cellW+i, 0.33*cellH+i, 3*HALF_PI, TWO_PI);
+      for(float i = start; i <= end; i+=10){
+        arc(cellX+cellW, cellY, i, i, HALF_PI, PI);
+        arc(cellX, cellY+cellH, i, i, 3*HALF_PI, TWO_PI);
       }
     break;
     default:
-      //line(cellX, cellY+cellH, cellX+cellW, cellY);
+      println(rnd);
     break;
   }
-
-
 }
 
 void keyPressed(){
