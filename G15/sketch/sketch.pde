@@ -258,7 +258,7 @@ void diagonalGrid02(int x, int y, int w, int h, int sep){
 //////////////////////////////
 void keyPressed(){
   if(key == 's'){
-    save(pathExport + "" + timeStamp() + ".png");
+    save(pathExport + "G15/" + timeStamp() + ".png");
   }
 }
 
