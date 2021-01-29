@@ -1,7 +1,7 @@
 // INFO ************** //
 //////////////////////////////
 /*
-GENUARY / DAY 22 / DRAW A LINE. WRONG ANSWERS ONLY
+GENUARY / DAY 24 / Make a grid of permutations of something.
 */
 
 // LIBRERÍAS ************** //
@@ -9,12 +9,14 @@ GENUARY / DAY 22 / DRAW A LINE. WRONG ANSWERS ONLY
 
 // VARIABLES GLOBALES ***** //
 //////////////////////////////
-int ancho = 600;
-int alto = 600;
+int ancho = 750;
+int alto = ancho;
 String pathData = "../../data/";
 String pathExport = "../../export/";
 
-float lng = 30;
+int margen = 100;
+int tam = 10;
+float sep = 65;
 
 // SETUP ****************** //
 //////////////////////////////
@@ -23,37 +25,40 @@ void settings(){
 }
 
 void setup(){
-  // stroke(255);
-  background(#202020);
-  for(float n = 1; n <= 360; n++){
-    for(float nn = 1; nn <= 10; nn++){
-      PVector v = new PVector(
-        width/2+sin(radians(n))*(300-nn*10),
-        height/2+cos(radians(n))*(300-nn*10)
-      );
-      stroke(noise(n/nn)*255);
-      // line(v.x, v.y, v.x+random(-10, 10), v.y+random(-10, 10));
-      line(
-        v.x, v.y,
-        v.x+map(noise(n/nn), 0, 1, -lng, lng),
-        v.y+map(noise(nn/nn), 0, 1, lng, -lng)
-      );
-    }
-  }
+  frameRate(1);
+  noStroke();
+
 }
 
 // LOOP ******************* //
 //////////////////////////////
 void draw(){
-
+  background(#202020);
+  for(int i = 1; i < height-margen*2; i+=sep){
+    for(int ii = 1; ii < width-margen*2; ii+=sep){
+      fill(#CC0000);
+      cell(margen+ii, margen+i, 10);
+      fill(255);
+      cell(margen+ii, margen+i, 10);
+    }
+  }
 }
 
 // FUNCIONES ************** //
 //////////////////////////////
+void cell(float x, float y, float sz){
+  for(int n = 0; n < 3; n++){
+    for(int nn = 0; nn < 3; nn++){
+      if(random(1) < 0.5){
+        rect(x+nn*sz, y+n*sz, sz, sz);
+      }
+    }
+  }
+}
 
 void keyPressed(){
   if(key == 's'){
-    save(pathExport + "G24/" + timeStamp() + ".png");
+    save(pathExport + "G25/" + timeStamp() + ".png");
   }
 }
 
